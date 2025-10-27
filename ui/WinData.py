@@ -18,7 +18,7 @@ class Ui_WinData(object):
         WinData.setMinimumSize(QtCore.QSize(250, 500))
         WinData.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
-        font.setFamily("微软雅黑")
+        font.setFamily("Segoe UI")
         font.setPointSize(10)
         WinData.setFont(font)
         icon = QtGui.QIcon()
@@ -30,7 +30,7 @@ class Ui_WinData(object):
         self.tableWidget.setMinimumSize(QtCore.QSize(0, 0))
         self.tableWidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
-        font.setFamily("微软雅黑")
+        font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.tableWidget.setFont(font)
         self.tableWidget.setAutoScroll(True)
@@ -70,13 +70,13 @@ class Ui_WinData(object):
 
     def retranslateUi(self, WinData):
         _translate = QtCore.QCoreApplication.translate
-        WinData.setWindowTitle(_translate("WinData", "滞回曲线计算结果"))
+        WinData.setWindowTitle(_translate("WinData", "Hysteresis curve calculation results"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("WinData", "位移"))
+        item.setText(_translate("WinData", "Displacement"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("WinData", "力"))
-        self.pushButton_2.setText(_translate("WinData", "复制全部"))
-        self.pushButton.setText(_translate("WinData", "导出"))
+        item.setText(_translate("WinData", "Force"))
+        self.pushButton_2.setText(_translate("WinData", "Copy All"))
+        self.pushButton.setText(_translate("WinData", "Export"))
 import resource_rc
 
 

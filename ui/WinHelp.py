@@ -17,10 +17,10 @@ class Ui_WinHelp(object):
         WinHelp.resize(737, 813)
         WinHelp.setMinimumSize(QtCore.QSize(422, 0))
         font = QtGui.QFont()
-        font.setFamily("微软雅黑")
+        font.setFamily("Segoe UI")
         font.setPointSize(10)
         WinHelp.setFont(font)
-        WinHelp.setWindowTitle("帮助文档")
+        WinHelp.setWindowTitle("Help Documentation")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/资源/logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         WinHelp.setWindowIcon(icon)
@@ -37,7 +37,7 @@ class Ui_WinHelp(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.textBrowser = QtWidgets.QTextBrowser(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
-        font.setFamily("微软雅黑")
+        font.setFamily("Segoe UI")
         font.setPointSize(20)
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
@@ -111,7 +111,7 @@ class Ui_WinHelp(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; font-size:16pt;\">    用户可查看各圈滞回环对应的滞回曲线，以及各圈滞回环的统计指标。</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; font-size:16pt; font-weight:600;\">（9）结果输出</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; font-size:16pt;\">    用户可查看并导出滞回曲线的处理及分析结果数据，数据将汇总于“数据汇总.xlxs”中，并单独生成几个.txt文件以存放各类数据。</span></p></body></html>"))
-        self.pushButton.setText(_translate("WinHelp", "确认"))
+        self.pushButton.setText(_translate("WinHelp", "Confirm"))
 import resource_rc
 
 

@@ -56,7 +56,7 @@ class MainWin(QMainWindow):
     def init_ui(self):
         self.ui = Ui_MainWindow()  # 主窗口
         self.ui.setupUi(self)
-        self.setWindowTitle(f'滞回曲线处理软件 {MainWin.Version}')
+        self.setWindowTitle(f'Hysteresis Curve Processing Software {MainWin.Version}')
         # tab 1
         self.ui.radioButton.pressed.connect(lambda: self.ui.pushButton.setEnabled(True))
         self.ui.radioButton.pressed.connect(lambda: self.ui.pushButton_2.setEnabled(True))
@@ -180,7 +180,7 @@ class MainWin(QMainWindow):
         # Menu and statusbar
         self.current_tab_index = 0  # 当前tab的索引号
         self.ui.tabWidget.tabBarClicked.connect(self.tab_clicked)
-        self.ui.statusbar.showMessage(f'滞回曲线处理软件 {MainWin.Version}')
+        self.ui.statusbar.showMessage(f'Hysteresis Curve Processing Software {MainWin.Version}')
         self.ui.action_2.triggered.connect(self.show_WinHelp)
         self.ui.action_3.triggered.connect(self.show_WinAbout)
 
@@ -192,7 +192,7 @@ class MainWin(QMainWindow):
         MainWin.ok1 = True
         MainWin.d1 = np.loadtxt('test_data/附加数据.txt', ndmin=2)
         MainWin.d_import = True
-        print(f'已导入附加数据，{MainWin.d1.shape[0]}行{MainWin.d1.shape[1]}列')
+        print(f'Additional data imported，{MainWin.d1.shape[0]}OK{MainWin.d1.shape[1]}List')
 
     def tab_clicked(self, index: int):
         """当tab被点击时"""
@@ -263,7 +263,7 @@ class MainWin(QMainWindow):
 
     def get_disp(self):
         """点击 - 导入位移"""
-        u_file = QFileDialog.getOpenFileName(self, '导入位移', '', '文本文档 (*.txt *.out)')[0]
+        u_file = QFileDialog.getOpenFileName(self, 'Import Displacement', '', 'Text Document (*.txt *.out)')[0]
         u_file_dir = u_file.split('/')[-1]
         if not u_file:
             return 0
@@ -630,12 +630,12 @@ class MainWin(QMainWindow):
         MainWin.ok3 = False
         self.ui.lineEdit_9.setText('200')
         self.ui.lineEdit_8.setText('200')
-        self.ui.lineEdit_10.setText('100')
-        self.ui.lineEdit_11.setText('100')
+        self.ui.lineEdit_10.setText('20')
+        self.ui.lineEdit_11.setText('20')
         self.ui.horizontalSlider.setMaximum(200)
         self.ui.horizontalSlider_2.setMaximum(200)
-        self.ui.horizontalSlider.setValue(100)
-        self.ui.horizontalSlider_2.setValue(100)
+        self.ui.horizontalSlider.setValue(20)
+        self.ui.horizontalSlider_2.setValue(20)
         # self.ui.horizontalSlider.set
         self.pg5.clear()
         self.ui.checkBox_5.setChecked(False)
