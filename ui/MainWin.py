@@ -1339,11 +1339,11 @@ class Ui_MainWindow(object):
 
         self.groupBox_7.setTitle(_translate("MainWindow", "Curve Smoothing"))
         self.checkBox_2.setText(_translate("MainWindow", "Apply Curve Smoothing"))
-        self.label_30.setText(_translate("MainWindow", "Moving Window Width (>1):"))
+        self.label_30.setText(_translate("MainWindow", "Order of the polynomial used to fit the samples (≥ 2):"))
         self.lineEdit_13.setText(_translate("MainWindow", "5"))
         self.label_31.setText(_translate("MainWindow", 
             "Notes:\n"
-            "(1) A simple moving-average algorithm is used for curve smoothing;\n"
+            "(1) A simple Savitzky–Golay filtering algorithm is used for curve smoothing;\n"
             "(2) If data intervals are too large, smoothing may cause abnormal hysteresis shapes — densification should be applied first."
         ))
         self.label_32.setText(_translate("MainWindow", "Smoothing Effect (Force–Time Curve):"))

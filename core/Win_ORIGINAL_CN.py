@@ -39,22 +39,22 @@ class MainWin(QMainWindow):
         super().__init__()
         self.init_pg()
         self.init_ui()
-        # self.init_for_test()  # For debugging the program
+        # self.init_for_test()  # 用于调试程序
 
     def init_pg(self):
-        """Initialize plotting settings"""
-        self.pen1 = pg.mkPen(color=(68, 114, 196), width=2)  # matplotlib blue:30, 120, 180
-        self.pen2 = pg.mkPen(color='orange', width=2)  # orange
-        self.pen3 = pg.mkPen(color='green', width=2)  # green
-        self.pen4 = pg.mkPen(color=(211, 211, 211), width=2)  # light gray
-        self.pen5 = pg.mkPen(color='red', width=2)  # red
-        self.pen_axis = pg.mkPen(color='black', width=1)  # axis
+        """初始化画图设置"""
+        self.pen1 = pg.mkPen(color=(68, 114, 196), width=2)  # matplotlib蓝色:30, 120, 180
+        self.pen2 = pg.mkPen(color='orange', width=2)  # 橙色
+        self.pen3 = pg.mkPen(color='green', width=2)  # 绿色
+        self.pen4 = pg.mkPen(color=(211, 211, 211), width=2)  # 亮灰色
+        self.pen5 = pg.mkPen(color='red', width=2)  # 红色
+        self.pen_axis = pg.mkPen(color='black', width=1)  # 坐标轴
         self.pen_grid = pg.mkPen(color='grey', width=1)
         self.font_axis = QFont('Arial')
-        self.font_axis.setPixelSize(15)  # axis font size
+        self.font_axis.setPixelSize(15)  # 坐标轴字体大小
 
     def init_ui(self):
-        self.ui = Ui_MainWindow()  # Main window
+        self.ui = Ui_MainWindow()  # 主窗口
         self.ui.setupUi(self)
         self.setWindowTitle(f'Hysteresis Curve Processing Software {MainWin.Version}')
         # tab 1
@@ -178,24 +178,24 @@ class MainWin(QMainWindow):
         self.ui.pushButton_24.clicked.connect(self.export_all_data)
         self.pg11 = self.replace_to_pyqtgraph(self.ui.graphicsView_11, self.ui.verticalLayout_16, 2)
         # Menu and statusbar
-        self.current_tab_index = 0  # Current tab index
+        self.current_tab_index = 0  # 当前tab的索引号
         self.ui.tabWidget.tabBarClicked.connect(self.tab_clicked)
         self.ui.statusbar.showMessage(f'Hysteresis Curve Processing Software {MainWin.Version}')
         self.ui.action_2.triggered.connect(self.show_WinHelp)
         self.ui.action_3.triggered.connect(self.show_WinAbout)
 
     def init_for_test(self):
-        """Automatically import data"""
+        """自动导入数据"""
         data = np.loadtxt('test_data/data_FD.txt')
         MainWin.u1 = data[:, 0]
         MainWin.F1 = data[:, 1]
         MainWin.ok1 = True
         MainWin.d1 = np.loadtxt('test_data/附加数据.txt', ndmin=2)
         MainWin.d_import = True
-        print(f'Additional data imported，{MainWin.d1.shape[0]} rows {MainWin.d1.shape[1]} columns')
+        print(f'Additional data imported，{MainWin.d1.shape[0]}OK{MainWin.d1.shape[1]}List')
 
     def tab_clicked(self, index: int):
-        """When tab is clicked"""
+        """当tab被点击时"""
         print(f'tab clicked (index = {index})')
         if index == 1:
             self.tab1_finished()
@@ -215,39 +215,39 @@ class MainWin(QMainWindow):
             self.tab7_1_finished()
 
     def set_current_tab_index(self):
-        """Set current tab index"""
+        """设置当前的tab索引号"""
         self.current_tab_index = self.ui.tabWidget.currentIndex()
 
     def replace_to_pyqtgraph(self, graphicsView, layout, index):
-        """Replace graphicsView control with pyqtgraph"""
+        """将graphicsView控件替换为pyqtgrapg"""
         layout.removeWidget(graphicsView)
         graphicsView.deleteLater()
         pg_widget = pg.PlotWidget()
         pg_widget.setBackground('w')
-        # Show top and right axes
+        # 显示上轴和右轴
         pg_widget.showAxis('top')
         pg_widget.showAxis('right')
-        # Set axis width
+        # 设置坐标轴宽度
         pg_widget.getAxis('bottom').setPen(self.pen_axis)
         pg_widget.getAxis('top').setPen(self.pen_axis)
         pg_widget.getAxis('left').setPen(self.pen_axis)
         pg_widget.getAxis('right').setPen(self.pen_axis)
-        # Change axis tick font size
+        # 更改坐标轴刻度字体大小
         pg_widget.getAxis('bottom').setTickFont(self.font_axis)
         pg_widget.getAxis('top').setTickFont(self.font_axis)
         pg_widget.getAxis('left').setTickFont(self.font_axis)
         pg_widget.getAxis('right').setTickFont(self.font_axis)
-        # Change axis font color
+        # 更改坐标轴字体颜色
         pg_widget.getAxis('bottom').setTextPen(QColor('black'))
         pg_widget.getAxis('top').setTextPen(QColor('black'))
         pg_widget.getAxis('left').setTextPen(QColor('black'))
         pg_widget.getAxis('right').setTextPen(QColor('black'))
-        # Do not show tick labels on top and right axes
+        # 不显示上轴和右轴的刻度标签
         pg_widget.getAxis('top').setTicks([])
         pg_widget.getAxis('right').setTicks([])
-        # Show grid lines
+        # 显示网格线
         pg_widget.showGrid(True, True)
-        # Add to original layout
+        # 添加到原layout中
         layout.insertWidget(index, pg_widget)
         return pg_widget
 
@@ -262,7 +262,7 @@ class MainWin(QMainWindow):
     # --------------------------------------------------- tab 1 ---------------------------------------------------
 
     def get_disp(self):
-        """Click - Import Displacement"""
+        """点击 - 导入位移"""
         u_file = QFileDialog.getOpenFileName(self, 'Import Displacement', '', 'Text Document (*.txt *.out)')[0]
         u_file_dir = u_file.split('/')[-1]
         if not u_file:
@@ -270,49 +270,49 @@ class MainWin(QMainWindow):
         try:
             u1_temp = np.loadtxt(u_file)
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to import data, please check the data format!')
+            QMessageBox.warning(self, '警告', '无法导入数据，请检查数据格式！')
             return 0
         if len(u1_temp) == 0:
-            QMessageBox.warning(self, 'Warning', 'Data is empty!')
+            QMessageBox.warning(self, '警告', '数据为空！')
             return 0
         try:
             self.plot_protocal(self.pg2, np.arange(0, len(u1_temp), 1), u1_temp)
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to draw loading protocol!')
+            QMessageBox.warning(self, '警告', '无法绘制加载制度！')
             return 0
-        self.ui.label_13.setText(f'Displacement data: {u_file_dir}')
+        self.ui.label_13.setText(f'位移数据：{u_file_dir}')
         MainWin.u1 = u1_temp
         MainWin.u_import = True
-        print(f'Import displacement, length: {len(u1_temp)}')
+        print(f'导入位移，长度: {len(u1_temp)}')
         if not self.MainWin_plot():
             return 0
         self.data_statistics()
 
     def get_force(self):
-        """Click - Import Force"""
-        F_file = QFileDialog.getOpenFileName(self, 'Import Force', '', 'Text Document (*.txt *.out)')[0]
+        """点击 - 导入力"""
+        F_file = QFileDialog.getOpenFileName(self, '导入力', '', '文本文档 (*.txt *.out)')[0]
         F_file_dir = F_file.split('/')[-1]
         if not F_file:
             return 0
         try:
             F1_temp = np.loadtxt(F_file)
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to import data, please check the data format!')
+            QMessageBox.warning(self, '警告', '无法导入数据，请检查数据格式！')
             return 0
         if len(F1_temp) == 0:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return 0
         MainWin.F1 = F1_temp
         MainWin.F_import = True
-        print(f'Import force, length: {len(F1_temp)}')
-        self.ui.label_14.setText(f'Force data: {F_file_dir}')
+        print(f'导入力，长度: {len(F1_temp)}')
+        self.ui.label_14.setText(f'力数据：{F_file_dir}')
         if not self.MainWin_plot():
             return 0
         self.data_statistics()
 
     def get_hysteretic(self):
-        """Click - Import Hysteresis Curve"""
-        uF_file = QFileDialog.getOpenFileName(self, 'Import Hysteresis Curve', '', 'Text Document (*.txt *.out)')[0]
+        """点击 - 导入滞回曲线"""
+        uF_file = QFileDialog.getOpenFileName(self, '导入滞回曲线', '', '文本文档 (*.txt *.out)')[0]
         uF_file_dir = uF_file.split('/')[-1]
         if not uF_file:
             return 0
@@ -321,61 +321,61 @@ class MainWin(QMainWindow):
             u1_temp = data[:, 0]
             F1_temp = data[:, 1]
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to import data, please check the data format!')
+            QMessageBox.warning(self, '警告', '无法导入数据，请检查数据格式！')
             return 0
         if len(u1_temp) == 0 or len(F1_temp) == 0:
-            QMessageBox.warning(self, 'Warning', 'Data is empty!')
+            QMessageBox.warning(self, '警告', '数据为空！')
             return 0
         try:
             self.plot_protocal(self.pg2, np.arange(0, len(u1_temp), 1), u1_temp)
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to draw loading protocol!')
+            QMessageBox.warning(self, '警告', '无法绘制加载制度！')
             return 0
-        self.ui.label_13.setText(f'Displacement data: {uF_file_dir}')
-        self.ui.label_14.setText(f'Force data: {uF_file_dir}')
+        self.ui.label_13.setText(f'位移数据：{uF_file_dir}')
+        self.ui.label_14.setText(f'力数据：{uF_file_dir}')
         MainWin.u1, MainWin.F1 = u1_temp, F1_temp
         MainWin.u_import, MainWin.F_import = True, True
-        print(f'Import hysteresis curve, length: {len(u1_temp)}')
+        print(f'导入滞回曲线，长度: {len(u1_temp)}')
         if not self.MainWin_plot():
             return 0
         self.data_statistics()
 
     def get_additional_data(self):
-        """Click - Import Additional Data"""
+        """点击 - 导入附加数据"""
         if not (MainWin.u_import and MainWin.F_import):
-            QMessageBox.warning(self, 'Error', 'Please import hysteresis curve first!')
+            QMessageBox.warning(self, '错误', '请先导入滞回曲线！')
             return
-        d_file = QFileDialog.getOpenFileName(self, 'Import Additional Data', '', 'Text Document (*.txt *.out)')[0]
+        d_file = QFileDialog.getOpenFileName(self, '导入附加数据', '', '文本文档 (*.txt *.out)')[0]
         d_file_dir = d_file.split('/')[-1]
         if not d_file:
             return 0
         try:
             data = np.loadtxt(d_file)
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to import data, please check the data format!')
+            QMessageBox.warning(self, '警告', '无法导入数据，请检查数据格式！')
             return 0
         if len(data) == 0:
-            QMessageBox.warning(self, 'Warning', 'Data is empty!')
+            QMessageBox.warning(self, '警告', '数据为空！')
             return
         if MainWin.u_import and len(data) != len(MainWin.u1):
-            QMessageBox.warning(self, 'Error', 'Additional data length does not match hysteresis curve!')
+            QMessageBox.warning(self, '错误', '附加数据与滞回曲线长度不一致！')
             return
         if MainWin.F_import and len(data) != len(MainWin.u1):
-            QMessageBox.warning(self, 'Error', 'Additional data length does not match hysteresis curve!')
+            QMessageBox.warning(self, '错误', '附加数据与滞回曲线长度不一致！')
             return
-        self.ui.label_62.setText(f'Additional data: {d_file_dir}')
+        self.ui.label_62.setText(f'附加数据：{d_file_dir}')
         MainWin.d1 = data
         MainWin.d_import = True
-        print(f'Import additional data, shape: {data.shape}')
+        print(f'导入附加数据，长度: {data.shape}')
 
     def plot_protocal(self, pg_i, x, y):
-        """Draw loading protocol"""
+        """绘制加载制度"""
         pg_i.clear()
         pg_i.plot(x, y, pen=self.pen1, antialias=MainWin.pg_antialias)
         pg_i.autoRange()
 
     def MainWin_plot(self):
-        """Draw curve, initial statistics"""
+        """绘制曲线，初步统计"""
         if all([MainWin.u_import, MainWin.F_import]):
             try:
                 self.pg1.clear()
@@ -384,7 +384,7 @@ class MainWin(QMainWindow):
                 MainWin.ok1 = True
                 self.ui.checkBox_6.setEnabled(True)
             except:
-                QMessageBox.warning(self, 'Warning', 'Unable to draw hysteresis curve!')
+                QMessageBox.warning(self, '警告', '无法绘制滞回曲线！')
                 return 0
         return 1
     
@@ -396,15 +396,15 @@ class MainWin(QMainWindow):
             self.MainWin_plot()
 
     def clear_data(self):
-        """Clear all data"""
+        """清除所有数据"""
         MainWin.u1, MainWin.F1, MainWin.d1 = None, None, None
         MainWin.u_import, MainWin.F_import, MainWin.d_import = False, False, False
         MainWin.ok1 = False
         self.pg1.clear()
         self.pg2.clear()
-        self.ui.label_13.setText('Displacement data:')
-        self.ui.label_14.setText('Force data:')
-        self.ui.label_62.setText('Additional data:')
+        self.ui.label_13.setText('位移数据：')
+        self.ui.label_14.setText('力数据：')
+        self.ui.label_62.setText('附加数据：')
         self.ui.lineEdit.clear()
         self.ui.lineEdit_2.clear()
         self.ui.lineEdit_3.clear()
@@ -460,7 +460,7 @@ class MainWin(QMainWindow):
         self.delete_duplicate_point()
 
     def plot2_old(self):
-        """Draw old loading protocol"""
+        """绘制旧加载制度"""
         if not MainWin.ok1:
             return
         self.pg3.clear()
@@ -470,7 +470,7 @@ class MainWin(QMainWindow):
         self.pg4.clear()
 
     def delete_duplicate_point(self):
-        """Delete duplicate points"""
+        """删除重复点"""
         if not MainWin.ok1:
             return
         self.u2_temp, self.F2_temp, self.d2_temp = [MainWin.u1[0]], [MainWin.F1[0]], [MainWin.d1.tolist()[0]]
@@ -536,7 +536,7 @@ class MainWin(QMainWindow):
         self.plot_turning_points()
 
     def set_slider_limit_1(self):
-        """Set start width slider upper limit"""
+        """设置起始宽度滑条上限"""
         limit1 = self.ui.lineEdit_9.text()
         if int(limit1) < 2:
             self.ui.lineEdit_9.setText('2')
@@ -547,7 +547,7 @@ class MainWin(QMainWindow):
         self.ui.lineEdit_10.setText(str(self.ui.horizontalSlider.value()))
 
     def set_slider_limit_2(self):
-        """Set end width slider upper limit"""
+        """设置终止宽度滑条上限"""
         limit2 = self.ui.lineEdit_8.text()
         if int(limit2) < 3:
             self.ui.lineEdit_8.setText('2')
@@ -574,27 +574,27 @@ class MainWin(QMainWindow):
             return
         _, self.tag = get_turning_point(MainWin.u2, self.ui.horizontalSlider.value(), self.ui.horizontalSlider_2.value())
         if delete_points:
-            # If there are deleted points
-            print('Draw displacement sequence (with deleted points)')
+            # 如果有删除点
+            print('绘制位移序列(有删除点)')
             self.current_tag = np.delete(self.tag, delete_points)
-            self.current_x = np.delete(np.arange(0, len(MainWin.u2), 1)[self.tag], delete_points)  # Turning points after deletion
+            self.current_x = np.delete(np.arange(0, len(MainWin.u2), 1)[self.tag], delete_points)  # 删除点后的反向点
             self.current_y = np.delete(MainWin.u2[self.tag], delete_points)
         else:
-            print('Draw displacement sequence (without deleted points)')
-            self.idx_point_selected = []  # Selected point indices
-            self.x_point_selected, self.y_point_selected = [], []  # Selected point coordinates
+            print('绘制位移序列(无删除点)')
+            self.idx_point_selected = []  # 所选点的索引
+            self.x_point_selected, self.y_point_selected = [], []  # 所选点的坐标
             self.current_tag = self.tag
             self.current_x = np.arange(0, len(MainWin.u2), 1)[self.current_tag]
             self.current_y = MainWin.u2[self.tag]
         self.pg5.clear()
-        self.line1 = pg.PlotCurveItem(np.arange(0, len(MainWin.u2), 1), MainWin.u2,  pen=self.pen4)  # Displacement sequence
+        self.line1 = pg.PlotCurveItem(np.arange(0, len(MainWin.u2), 1), MainWin.u2,  pen=self.pen4)  # 位移序列
         self.pg5.addItem(self.line1)
-        self.line2 = pg.ScatterPlotItem(size=8, pen=None, brush='red')  # Turning points
+        self.line2 = pg.ScatterPlotItem(size=8, pen=None, brush='red')  # 反向点
         self.line2.addPoints(self.current_x, self.current_y)
         self.pg5.addItem(self.line2)
         pen = pg.mkPen('orange')
         pen.setWidth(4)
-        self.line3 = pg.ScatterPlotItem(size=17, pen=pen, brush=None)  # Deleted points
+        self.line3 = pg.ScatterPlotItem(size=17, pen=pen, brush=None)  # 删除点
         if delete_points:
             self.line3.addPoints(self.x_point_selected, self.y_point_selected)
         self.pg5.addItem(self.line3)
@@ -612,7 +612,7 @@ class MainWin(QMainWindow):
                 self.line3.addPoints(self.x_point_selected, self.y_point_selected)
 
     def delete_clicked_points(self):
-        print(f'Number of deleted points: {len(self.idx_point_selected)}')
+        print(f'已删点数量: {len(self.idx_point_selected)}')
         self.plot_turning_points(delete_points=self.idx_point_selected)
         
     def reselect_point(self):
@@ -655,43 +655,43 @@ class MainWin(QMainWindow):
             self.ui.lineEdit_12.setEnabled(True)
             self.data_expansion()
             try:
-                self.ui.label_28.setText(f'Data length after expansion: {str(len(self.u4_temp_expan))}')
+                self.ui.label_28.setText(f'扩充后数据长度：{str(len(self.u4_temp_expan))}')
             except:
-                self.ui.label_28.setText('Data length after expansion:')
+                self.ui.label_28.setText('扩充后数据长度：')
         else:
             self.ui.label_26.setEnabled(False)
             self.ui.lineEdit_12.setEnabled(False)
-            self.ui.label_28.setText('Data length after expansion: No expansion')
+            self.ui.label_28.setText('扩充后数据长度：不扩充')
 
     def get_len_before_process(self):
-        # Get data length before processing
+        # 获取数据处理前长度
         if not MainWin.ok3:
             return
-        self.ui.label_27.setText(f'Data length before processing: {str(len(MainWin.u3))}')
+        self.ui.label_27.setText(f'处理前数据长度：{str(len(MainWin.u3))}')
         self.data_monotonisation()
 
     def data_monotonisation(self):
-        # Data monotonization
+        # 数据单调化
         if not MainWin.ok3:
             return
         self.u4_temp, self.F4_temp, self.d4_temp = data_monotonisation(MainWin.u3, MainWin.F3, MainWin.d3, self.tag)
-        self.ui.label_29.setText(f'Data length after monotonization: {str(len(self.u4_temp))}')
+        self.ui.label_29.setText(f'单调化后数据长度：{str(len(self.u4_temp))}')
 
     def data_expansion(self):
-        # Perform data expansion
+        # 进行数据扩充
         if not MainWin.ok3:
             return
         min_du_str = self.ui.lineEdit_12.text()
         try:
             self.min_du = float(min_du_str)
             if not self.min_du > 0:
-                self.ui.label_28.setText('Data length after expansion:')
+                self.ui.label_28.setText('扩充后数据长度：')
                 return 0
         except:
-            self.ui.label_28.setText('Data length after expansion:')
+            self.ui.label_28.setText('扩充后数据长度：')
             return 0
         self.u4_temp_expan, self.F4_temp_expan, self.d4_temp_expan = data_expansion(self.u4_temp, self.F4_temp, self.d4_temp, self.min_du)
-        self.ui.label_28.setText(f'Data length after expansion: {str(len(self.u4_temp_expan))}')
+        self.ui.label_28.setText(f'扩充后数据长度：{str(len(self.u4_temp_expan))}')
 
     def tab4_finished(self):
         if not MainWin.ok3:
@@ -699,11 +699,11 @@ class MainWin(QMainWindow):
         if self.ui.checkBox.isChecked():
             MainWin.u4, MainWin.F4, MainWin.d4 = self.u4_temp_expan, self.F4_temp_expan, self.d4_temp_expan
             MainWin.ok4 = True
-            print('tab4 Expanded')
+            print('tab4 已扩充')
         else:
             MainWin.u4, MainWin.F4, MainWin.d4 = self.u4_temp, self.F4_temp, self.d4_temp
             MainWin.ok4 = True
-            print('tab4 No expansion')
+            print('tab4 不扩充')
         self.tab5_start()
 
     def clear_tab4(self):
@@ -711,9 +711,9 @@ class MainWin(QMainWindow):
         MainWin.ok4 = False
         self.ui.checkBox.setChecked(False)
         self.ui.lineEdit_12.setText('0.2')
-        self.ui.label_27.setText('Data length before processing:')
-        self.ui.label_29.setText('Data length after monotonization:')
-        self.ui.label_28.setText('Data length after expansion: No expansion')
+        self.ui.label_27.setText('处理前数据长度：')
+        self.ui.label_29.setText('单调化后数据长度：')
+        self.ui.label_28.setText('扩充后数据长度：不扩充')
         self.MyDel('self.u4_temp', 'self.F4_temp', 'self.u4_temp_expan', 'self.F4_temp_expan')
 
     # --------------------------------------------------- tab 5 ---------------------------------------------------
@@ -765,18 +765,18 @@ class MainWin(QMainWindow):
 
     def tab5_finished(self):
         if not MainWin.ok4:
-            print('tab 5 No data output')
+            print('tab 5不输出数据')
             return
         if self.ui.checkBox_2.isChecked():
             MainWin.u5, MainWin.F5, MainWin.d5 = MainWin.u4, self.F5_smooth, MainWin.d4
             MainWin.ok5 = True
-            print('tab5 Smoothed')
+            print('tab5 已平滑')
             self.tab6_start()
             return 0
         else:
             MainWin.u5, MainWin.F5, MainWin.d5 = MainWin.u4, MainWin.F4, MainWin.d4
             MainWin.ok5 = True
-            print('tab5 No smoothing')
+            print('tab5 不平滑')
             self.tab6_start()
             return 0
 
@@ -796,17 +796,17 @@ class MainWin(QMainWindow):
     def get_loops_and_energy(self):
         if not MainWin.ok5:
             return
-        # Divide loops
+        # 分圈
         if self.ui.checkBox_3.isChecked():
             skip = 0
         else:
             skip = 1
         if self.ui.radioButton_10.isChecked():
-            method = 'a'  # Hysteresis loop division method, a-endpoints are zero displacement points, b-endpoints are turning points
+            method = 'a'  # 滞回环分圈方法，a-端点为零位移点，b-端点为反向点
         else:
             method = 'b'
         self.u_loops, self.F_loops, self.d_loops, self.length_with_skip = loops_division(MainWin.u5, MainWin.F5, MainWin.d5, skip=skip, method=method)
-        # Extract skeleton points
+        # 提取骨架点
         if self.ui.radioButton_3.isChecked():
             skeleton_method = 1
         if self.ui.radioButton_4.isChecked():
@@ -815,7 +815,7 @@ class MainWin(QMainWindow):
             skeleton_method = 3
         tag_gujia = get_skeleton(MainWin.u5[: self.length_with_skip], MainWin.F5[: self.length_with_skip], skeleton_method)
         self.gujia_u, self.gujia_F, self.gujia_d = MainWin.u5[tag_gujia], MainWin.F5[tag_gujia], MainWin.d5[tag_gujia]
-        # Calculate dissipated energy
+        # 计算耗能
         if self.ui.radioButton_5.isChecked():
             energyMethod = 1
         if self.ui.radioButton_6.isChecked():
@@ -823,13 +823,13 @@ class MainWin(QMainWindow):
         if self.ui.radioButton_7.isChecked():
             energyMethod = 3
         self.Es, self.Ea, self.zeta = get_dissipated_energy(self.u_loops, self.F_loops, EnergyMethod=energyMethod)
-        # Residual deformation
+        # 残余变形
         self.residual_pos, self.residual_neg = [], []
         for u_loop, F_loop in zip(self.u_loops, self.F_loops):
             d_pos, d_neg = get_residual_deformation(u_loop, F_loop)
             self.residual_pos.append(d_pos)
             self.residual_neg.append(d_neg)
-        # Plot
+        # 画图
         self.plot6()
 
     def plot6(self):
@@ -881,21 +881,21 @@ class MainWin(QMainWindow):
     def setup_comboBox(self):
         if not MainWin.ok6:
             return
-        self.ui.comboBox.addItem('Complete Hysteresis Curve')
+        self.ui.comboBox.addItem('完整滞回曲线')
         items = np.arange(1, len(self.u_loops) + 1, 1).tolist()
-        items = [f'Loop {i}' for i in items]
+        items = [f'第{i}圈' for i in items]
         self.ui.comboBox.addItems(items)
-        self.current_idx = 0  # Current combo box index
+        self.current_idx = 0  # 当前下拉列表的索引
 
     def comboBox_changed(self):
         if not MainWin.ok6:
             return
-        self.current_idx = self.ui.comboBox.currentIndex()  # Get combo box index
-        self.current_idx = max(0, self.current_idx)  # self.current_idx can become -1
+        self.current_idx = self.ui.comboBox.currentIndex()  # 获取下拉列表的索引
+        self.current_idx = max(0, self.current_idx)  # self.current_idx会变成-1
         self.plot_loop(self.current_idx)
 
     def next_loop(self):
-        # Next loop
+        # 下一圈
         if not MainWin.ok6:
             return
         self.current_idx += 1
@@ -904,7 +904,7 @@ class MainWin(QMainWindow):
         self.ui.comboBox.setCurrentIndex(self.current_idx)
 
     def previous_loop(self):
-        # Previous loop
+        # 上一圈
         if not MainWin.ok6:
             return
         self.current_idx -= 1
@@ -913,7 +913,7 @@ class MainWin(QMainWindow):
         self.ui.comboBox.setCurrentIndex(self.current_idx)
 
     def plot_all_loop(self):
-        # Draw hysteresis curve
+        # 绘制滞回曲线
         self.current_idx = 0
         self.ui.comboBox.setCurrentIndex(self.current_idx)
 
@@ -946,7 +946,7 @@ class MainWin(QMainWindow):
             self.ui.lineEdit_21.setText(str(round(max(current_loop_F), 5)))
             self.ui.lineEdit_22.setText(str(round(min(current_loop_F), 5)))
             self.ui.lineEdit_23.setText(str(len(current_loop_u)))
-            self.ui.lineEdit_24.setText(str(round(self.Es[idx], 2)))  # The three energy indicators start from 0, so idx does not need to be subtracted by 1
+            self.ui.lineEdit_24.setText(str(round(self.Es[idx], 2)))  # 三个耗能指标是从0开始的，所以idx不用减1
             self.ui.lineEdit_25.setText(str(round(self.Ea[idx], 2)))
             self.ui.lineEdit_26.setText(str(round(self.zeta[idx], 5)))
 
@@ -983,7 +983,7 @@ class MainWin(QMainWindow):
         self.is_clear = False
         # idx: int or list
         if self.ui.radioButton_8.isChecked():
-            # Use common scheme
+            # 用常用方案
             idx = self.ui.comboBox_5.currentIndex()
             if not self.scheme:
                 self.scheme = [idx]
@@ -994,21 +994,21 @@ class MainWin(QMainWindow):
                     return 0
             self.get_skt_deg_result(idx)
             text = self.ui.label_57.text()
-            self.ui.label_57.setText(text + '\n%d. Common scheme (%d)' % (len(self.scheme), idx + 1))
-            self.ui.comboBox_2.addItem('%d. Common scheme (%d)' % (len(self.scheme), idx + 1))
-            self.ui.comboBox_3.addItem('%d. Common scheme (%d)' % (len(self.scheme), idx + 1))
-            self.ui.comboBox_4.addItem('%d. Common scheme (%d)' % (len(self.scheme), idx + 1))
-            self.data_scheme.append('%d. Common scheme (%d)' % (len(self.scheme), idx + 1))
+            self.ui.label_57.setText(text + '\n%d. 常用方案(%d)' % (len(self.scheme), idx + 1))
+            self.ui.comboBox_2.addItem('%d. 常用方案(%d)' % (len(self.scheme), idx + 1))
+            self.ui.comboBox_3.addItem('%d. 常用方案(%d)' % (len(self.scheme), idx + 1))
+            self.ui.comboBox_4.addItem('%d. 常用方案(%d)' % (len(self.scheme), idx + 1))
+            self.data_scheme.append('%d. 常用方案(%d)' % (len(self.scheme), idx + 1))
         else:
-            # Use manual scheme
+            # 用手动方案
             try:
                 idx = self.ui.lineEdit_27.text().split(',')
                 idx = [int(i) for i in idx]
             except:
-                QMessageBox.warning(self, 'Warning', 'Input format error!')
+                QMessageBox.warning(self, '警告', '输入格式有误！')
                 return 0
             if idx == []:
-                QMessageBox.warning(self, 'Warning', 'Input format error!')
+                QMessageBox.warning(self, '警告', '输入格式有误！')
                 return 0
             if not self.scheme:
                 self.scheme = [idx]
@@ -1018,13 +1018,13 @@ class MainWin(QMainWindow):
             n = 0
             for i in self.scheme:
                 if type(i) == list:
-                    n += 1  # Count the number of manual schemes
+                    n += 1  # 计算手动方案的个数
             self.get_skt_deg_result(idx)
-            self.ui.label_57.setText(text + '\n%d. Manual scheme (%d)' % (len(self.scheme), n))
-            self.ui.comboBox_2.addItem('%d. Manual scheme (%d)' % (len(self.scheme), n))
-            self.ui.comboBox_3.addItem('%d. Manual scheme (%d)' % (len(self.scheme), n))
-            self.ui.comboBox_4.addItem('%d. Manual scheme (%d)' % (len(self.scheme), n))
-            self.data_scheme.append('%d. Manual scheme (%d)' % (len(self.scheme), n))
+            self.ui.label_57.setText(text + '\n%d. 手动方案(%d)' % (len(self.scheme), n))
+            self.ui.comboBox_2.addItem('%d. 手动方案(%d)' % (len(self.scheme), n))
+            self.ui.comboBox_3.addItem('%d. 手动方案(%d)' % (len(self.scheme), n))
+            self.ui.comboBox_4.addItem('%d. 手动方案(%d)' % (len(self.scheme), n))
+            self.data_scheme.append('%d. 手动方案(%d)' % (len(self.scheme), n))
 
     def get_skt_deg_result(self, idx):
         if not MainWin.ok7:
@@ -1033,15 +1033,15 @@ class MainWin(QMainWindow):
             return 0
         else:
             self.is_clear = False
-        # Skeleton curve
+        # 骨架曲线
         if type(idx) == int:
-            # Common scheme
+            # 常用方案
             skt_u, skt_F, skt_d, _ = get_skeleton_curve_1(self.gujia_u, self.gujia_F, self.gujia_d, idx)
         else:
-            # Manual scheme
+            # 手动方案
             skt_u, skt_F, skt_d, _ = get_skeleton_curve_2(self.gujia_u, self.gujia_F, self.gujia_d, idx)
         self.data_skeleton_curve.append([skt_u, skt_F, skt_d])
-        # Stiffness degradation
+        # 刚度退化
         if type(idx) == int:
             skt_u, skt_F, _, _ = get_skeleton_curve_1(self.gujia_u, self.gujia_F, self.gujia_d, idx)
         else:
@@ -1050,10 +1050,10 @@ class MainWin(QMainWindow):
         stif_deg_x, stif_deg_y = [], []
         for i in range(n):
             stif_deg_x.append(skt_u[n + i])
-            deg_val = (skt_F[n + i] - skt_F[n - i - 1]) / (skt_u[n + i] - skt_u[n - i - 1])  # Secant stiffness degradation value
+            deg_val = (skt_F[n + i] - skt_F[n - i - 1]) / (skt_u[n + i] - skt_u[n - i - 1])  # 割线刚度退化值
             stif_deg_y.append(deg_val)
         self.data_stiffness_degradation.append([stif_deg_x, stif_deg_y])
-        # Strength degradation
+        # 强度退化
         if type(idx) == int:
             skt_u, skt_F, _, N = get_skeleton_curve_1(self.gujia_u, self.gujia_F, self.gujia_d, idx)
         else:
@@ -1064,7 +1064,7 @@ class MainWin(QMainWindow):
             else:
                 skt_u0, skt_F0, _, _ = get_skeleton_curve_2(self.gujia_u, self.gujia_F, self.gujia_d, idx, previous_round=True)
         else:
-            # No previous loop, no strength degradation
+            # 无上一圈，无强度退化
             self.data_strength_degradation.append([None, None])
             return 0
         strg_deg_x, strg_deg_y = [], []
@@ -1091,7 +1091,7 @@ class MainWin(QMainWindow):
         self.pg13.clear()
         self.pg14.clear()
         self.pg15.clear()
-        self.ui.label_57.setText('Selected schemes (up to five):')
+        self.ui.label_57.setText('已选择方案（最多五个）：')
         self.data_scheme = []
         self.data_skeleton_curve = []
         self.data_stiffness_degradation = []
@@ -1124,10 +1124,10 @@ class MainWin(QMainWindow):
             idx_strg = self.ui.comboBox_4.currentIndex()
             strg_deg_x, strg_deg_y = self.data_strength_degradation[idx_strg]
             if not strg_deg_x:
-                self.ui.label_56.setText('Strength degradation: (Current scheme has no previous loop, no strength degradation)')
+                self.ui.label_56.setText('强度退化：（当前方案无上一圈滞回环，无强度退化）')
                 self.pg15.clear()
                 return 0
-            self.ui.label_56.setText('Strength degradation:')
+            self.ui.label_56.setText('强度退化：')
             self.pg15.clear()
             self.pg15.plot(strg_deg_x, strg_deg_y, pen=self.pen1, symbolBrush=(68, 114, 196), symbol='o', symbolSize=10)
             self.pg15.autoRange()
@@ -1142,7 +1142,7 @@ class MainWin(QMainWindow):
     def clear_tab7_1(self):
         MainWin.u7_1, MainWin.F7_1, MainWin.d7_1 = None, None, None
         MainWin.ok7_1 = False
-        self.ui.label_57.setText('Selected schemes (up to five):')
+        self.ui.label_57.setText('已选择方案（最多五个）：')
         self.ui.comboBox_5.setCurrentIndex(0)
         self.ui.radioButton_8.setChecked(True)
         self.ui.lineEdit_27.clear()
@@ -1178,15 +1178,15 @@ class MainWin(QMainWindow):
 
     def data_hysteretic_curve(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(MainWin.u7_1), 2))
         data[:, 0], data[:, 1] = MainWin.u7_1, MainWin.F7_1
-        self.WinData = WinData(data, content='Hysteresis Curve')
+        self.WinData = WinData(data, content='滞回曲线')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Hysteresis Curve"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Displacement"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Force"))
+        self.WinData.setWindowTitle(_translate("win_getData", "滞回曲线"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "位移"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "力"))
         self.WinData.ui_data.tableWidget.setRowCount(len(MainWin.u7_1))
         for i in range(len(MainWin.u7_1)):
             item_x = QTableWidgetItem(str(round(MainWin.u7_1[i], 5)))
@@ -1198,15 +1198,15 @@ class MainWin(QMainWindow):
 
     def data_skeleton_points(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(self.gujia_u) + 1, 2))
         data[:, 0], data[:, 1] = np.insert(self.gujia_u, 0, 0), np.insert(self.gujia_F, 0, 0)
-        self.WinData = WinData(data, content='Skeleton Points')
+        self.WinData = WinData(data, content='骨架点')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Skeleton Points"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Displacement"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Force"))
+        self.WinData.setWindowTitle(_translate("win_getData", "骨架点"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "位移"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "力"))
         self.WinData.ui_data.tableWidget.setRowCount(len(self.gujia_u) + 1)
         for i in range(len(data)):
             item_x = QTableWidgetItem(str(round(data[i, 0], 5)))
@@ -1218,15 +1218,15 @@ class MainWin(QMainWindow):
 
     def data_Es(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(self.Es), 2))
         data[:, 0], data[:, 1] = np.arange(0, len(self.Es), 1), self.Es
-        self.WinData = WinData(data, content='Single Loop Energy Dissipation')
+        self.WinData = WinData(data, content='单圈耗能')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Single Loop Energy Dissipation"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Cycle Number"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Single Loop Energy Dissipation"))
+        self.WinData.setWindowTitle(_translate("win_getData", "单圈耗能"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "循环周数"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "单圈耗能"))
         self.WinData.ui_data.tableWidget.setRowCount(len(self.Es))
         for i in range(len(self.Es)):
             item_x = QTableWidgetItem(str(i))
@@ -1238,15 +1238,15 @@ class MainWin(QMainWindow):
 
     def data_Ea(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(self.Ea), 2))
         data[:, 0], data[:, 1] = np.arange(0, len(self.Ea), 1), self.Ea
-        self.WinData = WinData(data, content='Cumulative Energy Dissipation')
+        self.WinData = WinData(data, content='累积耗能')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Cumulative Energy Dissipation"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Cycle Number"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Cumulative Energy Dissipation"))
+        self.WinData.setWindowTitle(_translate("win_getData", "累积耗能"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "循环周数"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "累积耗能"))
         self.WinData.ui_data.tableWidget.setRowCount(len(self.Ea))
         for i in range(len(self.Ea)):
             item_x = QTableWidgetItem(str(i))
@@ -1258,15 +1258,15 @@ class MainWin(QMainWindow):
 
     def data_zeta(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(self.zeta), 2))
         data[:, 0], data[:, 1] = np.arange(0, len(self.zeta), 1), self.zeta
-        self.WinData = WinData(data, content='Equivalent Viscous Damping Coefficient')
+        self.WinData = WinData(data, content='等效粘滞阻尼系数')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Equivalent Damping"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Cycle Number"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Equivalent Damping"))
+        self.WinData.setWindowTitle(_translate("win_getData", "等效阻尼"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "循环周数"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "等效阻尼"))
         self.WinData.ui_data.tableWidget.setRowCount(len(self.zeta))
         for i in range(len(self.zeta)):
             item_x = QTableWidgetItem(str(i))
@@ -1278,16 +1278,16 @@ class MainWin(QMainWindow):
 
     def data_residual_deformation(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data = np.zeros((len(self.residual_pos), 3))
         data[:, 0], data[:, 1], data[:, 2] = np.arange(1, len(self.residual_pos) + 1, 1), self.residual_pos, self.residual_neg
-        self.WinData = WinData(data, content='Residual Deformation', isResidual=True)
+        self.WinData = WinData(data, content='残余变形', isResidual=True)
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Residual Deformation"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Cycle Number"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Positive Residual Deformation"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(2).setText(_translate("win_getData", "Negative Residual Deformation"))
+        self.WinData.setWindowTitle(_translate("win_getData", "残余变形"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "循环周数"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "正向残余变形"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(2).setText(_translate("win_getData", "负向残余变形"))
         self.WinData.ui_data.tableWidget.setRowCount(len(self.residual_pos))
         for i in range(len(self.residual_pos)):
             item_1 = QTableWidgetItem(str(i + 1))
@@ -1301,18 +1301,18 @@ class MainWin(QMainWindow):
 
     def data_strength(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         data_maxF = [max(loop) for loop in self.F_loops]
         data_minF = [min(loop) for loop in self.F_loops]
         data = np.zeros((len(data_maxF), 3))
         data[:, 0], data[:, 1], data[:, 2] = np.arange(1, len(data_maxF) + 1, 1), data_maxF, data_minF
-        self.WinData = WinData(data, content='Bearing Capacity', isResidual=True)
+        self.WinData = WinData(data, content='承载力', isResidual=True)
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Bearing Capacity"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "Cycle Number"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "Positive Maximum Bearing Capacity"))
-        self.WinData.ui_data.tableWidget.horizontalHeaderItem(2).setText(_translate("win_getData", "Negative Maximum Bearing Capacity"))
+        self.WinData.setWindowTitle(_translate("win_getData", "承载力"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(0).setText(_translate("win_getData", "循环周数"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(1).setText(_translate("win_getData", "正向最大承载力"))
+        self.WinData.ui_data.tableWidget.horizontalHeaderItem(2).setText(_translate("win_getData", "负向最大承载力"))
         self.WinData.ui_data.tableWidget.setRowCount(len(data_maxF))
         for i in range(len(data_maxF)):
             item_1 = QTableWidgetItem(str(i + 1))
@@ -1326,18 +1326,18 @@ class MainWin(QMainWindow):
 
     def data_additional_data(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         if not MainWin.d_import:
-            QMessageBox.warning(self, 'Warning', 'No additional data imported!')
+            QMessageBox.warning(self, '警告', '没有导入附加数据！')
             return
         n_col = MainWin.d7_1.shape[1]
         data = np.zeros((len(MainWin.d7_1), n_col))
         for i in range(n_col):
             data[:, 0] = MainWin.d7_1[:, i]
-        self.WinData = WinData(data, content='Additional Data')
+        self.WinData = WinData(data, content='附加数据')
         _translate = QCoreApplication.translate
-        self.WinData.setWindowTitle(_translate("win_getData", "Additional Data"))
+        self.WinData.setWindowTitle(_translate("win_getData", "附加数据"))
         for i in range(n_col):
             if i >= 2:
                 self.WinData.ui_data.tableWidget.insertColumn(i)
@@ -1356,56 +1356,56 @@ class MainWin(QMainWindow):
 
     def export_all_data(self):
         if not MainWin.ok7_1:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '没有数据！')
             return
         self.buttom_off()
-        output_file = QFileDialog.getExistingDirectory(self, 'Select save path folder')
+        output_file = QFileDialog.getExistingDirectory(self, '选择保存路径文件夹')
         if not output_file:
             self.buttom_on()
             return 0
         self.export_all_data_(output_file)
         
     def export_all_data_(self, output_file: str):
-        np.savetxt(f'{output_file}/Hysteresis Curve.txt', np.column_stack((MainWin.u7_1, MainWin.F7_1)))
-        np.savetxt(f'{output_file}/Skeleton Points.txt', np.column_stack((self.gujia_u, self.gujia_F)))
-        np.savetxt(f'{output_file}/Single Loop Energy Dissipation.txt', self.Es)
-        np.savetxt(f'{output_file}/Cumulative Energy Dissipation.txt', self.Ea)
-        np.savetxt(f'{output_file}/Equivalent Viscous Damping Coefficient.txt', self.zeta)
-        np.savetxt(f'{output_file}/Residual Deformation.txt', np.column_stack((np.arange(0, len(self.residual_pos), 1), self.residual_pos, self.residual_neg)))
+        np.savetxt(f'{output_file}/滞回曲线.txt', np.column_stack((MainWin.u7_1, MainWin.F7_1)))
+        np.savetxt(f'{output_file}/骨架点.txt', np.column_stack((self.gujia_u, self.gujia_F)))
+        np.savetxt(f'{output_file}/单圈耗能.txt', self.Es)
+        np.savetxt(f'{output_file}/累积耗能.txt', self.Ea)
+        np.savetxt(f'{output_file}/等效粘滞阻尼系数.txt', self.zeta)
+        np.savetxt(f'{output_file}/残余变形.txt', np.column_stack((np.arange(0, len(self.residual_pos), 1), self.residual_pos, self.residual_neg)))
         data_maxF = [max(loop) for loop in self.F_loops]
         data_minF = [min(loop) for loop in self.F_loops]
-        np.savetxt(f'{output_file}/Bearing Capacity.txt', np.column_stack((np.arange(0, len(data_maxF), 1), data_minF, data_maxF)))
-        if not os.path.exists(f'{output_file}/Each Loop Hysteresis'):
-            os.mkdir(f'{output_file}/Each Loop Hysteresis')
+        np.savetxt(f'{output_file}/承载力.txt', np.column_stack((np.arange(0, len(data_maxF), 1), data_minF, data_maxF)))
+        if not os.path.exists(f'{output_file}/各圈滞回环'):
+            os.mkdir(f'{output_file}/各圈滞回环')
         for i, (u_loop, F_loop) in enumerate(zip(self.u_loops, self.F_loops)):
-            np.savetxt(f'{output_file}/Each Loop Hysteresis/Loop {i+1} Hysteresis.txt', np.column_stack((u_loop, F_loop)))
-        if not os.path.exists(f'{output_file}/Each Loop Additional Data'):
-            os.mkdir(f'{output_file}/Each Loop Additional Data')
+            np.savetxt(f'{output_file}/各圈滞回环/第{i+1}圈滞回环.txt', np.column_stack((u_loop, F_loop)))
+        if not os.path.exists(f'{output_file}/各圈附加数据'):
+            os.mkdir(f'{output_file}/各圈附加数据')
         for i, d_loop in enumerate(self.d_loops):
-            np.savetxt(f'{output_file}/Each Loop Additional Data/Loop {i+1} Additional Data.txt', d_loop)
+            np.savetxt(f'{output_file}/各圈附加数据/第{i+1}圈附加数据.txt', d_loop)
         if MainWin.d_import:
-            np.savetxt(f'{output_file}/Additional Data.txt', MainWin.d7_1)
+            np.savetxt(f'{output_file}/附加数据.txt', MainWin.d7_1)
         self.pg7.autoRange()
-        self.pg7.grab().save(f'{output_file}/Skeleton Points.png', quality=100)
+        self.pg7.grab().save(f'{output_file}/骨架点.png', quality=100)
         self.pg8.autoRange()
-        self.pg8.grab().save(f'{output_file}/Single Loop Energy Dissipation.png', quality=100)
+        self.pg8.grab().save(f'{output_file}/单圈耗能.png', quality=100)
         self.pg9.autoRange()
-        self.pg9.grab().save(f'{output_file}/Cumulative Energy Dissipation.png', quality=100)
+        self.pg9.grab().save(f'{output_file}/累积耗能.png', quality=100)
         self.pg10.autoRange()
-        self.pg10.grab().save(f'{output_file}/Equivalent Viscous Damping Coefficient.png', quality=100)
+        self.pg10.grab().save(f'{output_file}/等效黏滞阻尼系数.png', quality=100)
         self.pg11.autoRange()
-        self.pg11.grab().save(f'{output_file}/Hysteresis Curve.png', quality=100)
+        self.pg11.grab().save(f'{output_file}/滞回曲线.png', quality=100)
         export_result = self.creat_excel(output_file)
         if export_result:
-            QMessageBox.information(self, 'Prompt', 'All data exported!')
+            QMessageBox.information(self, '提示', '已导出所有数据！')
 
     def creat_excel(self, output_file):
         if not MainWin.ok7_1:
             return
         wb = px.Workbook()
-        # 1 Hysteresis Curve
+        # 1 滞回曲线
         ws1 = wb.active
-        ws1.title = 'Hysteresis Curve'
+        ws1.title = '滞回曲线'
         ws1['A1'] = 'u'
         ws1['B1'] = 'F'
         self.write_col_to_excel(ws1, MainWin.u7_1, 2, 1)
@@ -1413,8 +1413,8 @@ class MainWin(QMainWindow):
         for row in ws1.iter_rows():
             for cell in row:
                 cell.alignment = Alignment(horizontal='center', vertical='center')
-        # 2 Skeleton Curve & Degradation Curve
-        ws2 = wb.create_sheet('Skeleton Curve & Degradation Curve', 1)
+        # 2 骨架曲线&退化曲线
+        ws2 = wb.create_sheet('骨架曲线&退化曲线', 1)
         if MainWin.d_import:
             n_col = MainWin.d7_1.shape[1]
         else:
@@ -1422,11 +1422,11 @@ class MainWin(QMainWindow):
         for i, title in enumerate(self.data_scheme):
             title = self.data_scheme[i][3:]
             ws2.cell(row=1, column=1+(7+n_col)*i, value=title)
-            ws2.cell(row=3, column=1+(7+n_col)*i, value='Skeleton Curve')
-            ws2.cell(row=3, column=3+(7+n_col)*i, value='Stiffness Degradation Curve')
-            ws2.cell(row=3, column=5+(7+n_col)*i, value='Strength Degradation Curve')
+            ws2.cell(row=3, column=1+(7+n_col)*i, value='骨架曲线')
+            ws2.cell(row=3, column=3+(7+n_col)*i, value='刚度退化曲线')
+            ws2.cell(row=3, column=5+(7+n_col)*i, value='强度退化曲线')
             if MainWin.d_import:
-                ws2.cell(row=3, column=7+(7+n_col)*i, value='Additional Data')
+                ws2.cell(row=3, column=7+(7+n_col)*i, value='附加数据')
             ws2.cell(row=4, column=1+(7+n_col)*i, value='u')
             ws2.cell(row=4, column=2+(7+n_col)*i, value='F')
             ws2.cell(row=4, column=3+(7+n_col)*i, value='u')
@@ -1451,7 +1451,7 @@ class MainWin(QMainWindow):
                     data_col = self.data_skeleton_curve[i][2][:, j]
                     self.write_col_to_excel(ws2, data_col, 5, 6+(7+n_col)*i+j+1)
             if self.data_strength_degradation[i][0] is None:
-                ws2.cell(row=5, column=5+(7+n_col)*i, value='Current scheme has no strength degradation')
+                ws2.cell(row=5, column=5+(7+n_col)*i, value='当前方案无强度退化')
                 ws2.merge_cells(start_row=5, start_column=5+(7+n_col)*i, end_row=5, end_column=6+(7+n_col)*i)
             else:
                 self.write_col_to_excel(ws2, self.data_strength_degradation[i][0], 5, 5+(7+n_col)*i)
@@ -1459,14 +1459,14 @@ class MainWin(QMainWindow):
         for row in ws2.iter_rows():
             for cell in row:
                 cell.alignment = Alignment(horizontal='center', vertical='center')
-        # 3 Energy Indicators & Others
-        ws3 = wb.create_sheet('Energy Indicators & Others', 2)
-        ws3.cell(row=1, column=1, value='Single Loop Energy Dissipation')
-        ws3.cell(row=1, column=3, value='Cumulative Energy Dissipation')
-        ws3.cell(row=1, column=5, value='Equivalent Viscous Damping Coefficient')
-        ws3.cell(row=1, column=7, value='All Skeleton Points')
-        ws3.cell(row=1, column=9, value='Residual Deformation')
-        ws3.cell(row=1, column=12, value='Maximum Bearing Capacity')
+        # 3 耗能指标&残余变形
+        ws3 = wb.create_sheet('耗能指标&其他', 2)
+        ws3.cell(row=1, column=1, value='单圈耗能')
+        ws3.cell(row=1, column=3, value='累积耗能')
+        ws3.cell(row=1, column=5, value='等效粘滞阻尼系数')
+        ws3.cell(row=1, column=7, value='所有骨架点')
+        ws3.cell(row=1, column=9, value='残余变形')
+        ws3.cell(row=1, column=12, value='最大承载力')
         ws3.merge_cells(start_row=1, start_column=1, end_row=1, end_column=2)
         ws3.merge_cells(start_row=1, start_column=3, end_row=1, end_column=4)
         ws3.merge_cells(start_row=1, start_column=5, end_row=1, end_column=6)
@@ -1508,10 +1508,10 @@ class MainWin(QMainWindow):
         for row in ws3.iter_rows():
             for cell in row:
                 cell.alignment = Alignment(horizontal='center', vertical='center')
-        # 4 Each Loop Hysteresis
-        ws4 = wb.create_sheet('Each Loop Hysteresis', 3)
+        # 4 各圈滞回环
+        ws4 = wb.create_sheet('各圈滞回环', 3)
         for i, (u_loop, F_loop) in enumerate(zip(self.u_loops, self.F_loops)):
-            ws4.cell(row=1, column=1+i*2, value=f'Loop {i+1}')
+            ws4.cell(row=1, column=1+i*2, value=f'第{i+1}圈')
             ws4.cell(row=2, column=1+i*2, value='u')
             ws4.cell(row=2, column=2+i*2, value='F')
             ws4.merge_cells(start_row=1, start_column=1+i*2, end_row=1, end_column=2+i*2)
@@ -1520,11 +1520,11 @@ class MainWin(QMainWindow):
         for row in ws4.iter_rows():
             for cell in row:
                 cell.alignment = Alignment(horizontal='center', vertical='center')
-        # 5 Additional Data
+        # 5 附加数据
         if MainWin.d_import:
             n_col = MainWin.d7_1.shape[1]
-            ws5 = wb.create_sheet('Additional Data', 4)
-            ws5.cell(row=1, column=1, value='Additional Data')
+            ws5 = wb.create_sheet('附加数据', 4)
+            ws5.cell(row=1, column=1, value='附加数据')
             ws5.merge_cells(start_row=1, start_column=1, end_row=1, end_column=n_col)
             for i in range(0, n_col):
                 col_data = MainWin.d7_1[:, i]
@@ -1533,28 +1533,28 @@ class MainWin(QMainWindow):
             for row in ws5.iter_rows():
                 for cell in row:
                     cell.alignment = Alignment(horizontal='center', vertical='center')
-        # Export
+        # 导出
         try:
-            wb.save(f'{output_file}/Data Summary.xlsx')
+            wb.save(f'{output_file}/数据汇总.xlsx')
             self.buttom_on()
             return True
         except:
-            QMessageBox.warning(self, 'Warning', 'Unable to export excel, if excel is open, please close it.')
+            QMessageBox.warning(self, '警告', '无法导出excel，若正在打开excel请关闭。')
             self.buttom_on()
             return False
 
     @staticmethod
     def write_col_to_excel(ws, data, row, col):
-        # Write a column of data to excel
+        # 写入一列数据到excel
         for i, val in enumerate(data):
             ws.cell(row=row+i, column=col, value=val)
 
     def buttom_on(self):
-        self.ui.pushButton_24.setText('Export All Data')
+        self.ui.pushButton_24.setText('导出所有数据')
         self.ui.pushButton_24.setEnabled(True)
 
     def buttom_off(self):
-        self.ui.pushButton_24.setText('Exporting...')
+        self.ui.pushButton_24.setText('正在导出...')
         self.ui.pushButton_24.setEnabled(False)
 
     def clear_tab8(self):
@@ -1601,28 +1601,28 @@ class WinData(QDialog):
         header.setSectionResizeMode(QHeaderView.Stretch)
         if isResidual:
             self.resize(600, 500)
-            self.ui_data.tableWidget.insertColumn(2)  # If counting residual deformation, add a column
+            self.ui_data.tableWidget.insertColumn(2)  # 如果统计残余变形，则增加一列
             item = QTableWidgetItem()
             self.ui_data.tableWidget.setHorizontalHeaderItem(2, item)
-        self.ui_data.tableWidget.setEditTriggers(self.ui_data.tableWidget.NoEditTriggers)  # Disable editing
+        self.ui_data.tableWidget.setEditTriggers(self.ui_data.tableWidget.NoEditTriggers)  # 禁止编辑
         self.ui_data.pushButton.clicked.connect(self.data_export)
         self.ui_data.pushButton_2.clicked.connect(self.data_copy)
         self.ui_data.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.ui_data.tableWidget.customContextMenuRequested.connect(self.showContextMenu)
 
     def showContextMenu(self, pos):
-        # Define context menu
+        # 定义上下文菜单
         context_menu = QMenu(self)
-        copy_action = context_menu.addAction("Copy")
-        menu_size = context_menu.sizeHint()  # Get menu size
-        global_pos = self.ui_data.tableWidget.mapToGlobal(pos)  # Get global coordinates
-        adjusted_pos = global_pos + QPoint(menu_size.width() // 2, menu_size.height() // 2)  # Adjust position to appear to the right and below the mouse pointer
+        copy_action = context_menu.addAction("复制")
+        menu_size = context_menu.sizeHint()  # 获取菜单的大小
+        global_pos = self.ui_data.tableWidget.mapToGlobal(pos)  # 获取全局坐标
+        adjusted_pos = global_pos + QPoint(menu_size.width() // 2, menu_size.height() // 2)  # 调整位置以使其出现在鼠标指针的右下方
         action = context_menu.exec_(adjusted_pos)
         if action == copy_action:
             self.copy_to_clipboard()
 
     def copy_to_clipboard(self):
-        # Copy to clipboard
+        # 幅值至剪切板
         selected = self.ui_data.tableWidget.selectedItems()
         if selected:
             row_start = selected[0].row()
@@ -1640,7 +1640,7 @@ class WinData(QDialog):
             QApplication.clipboard().setText(clipboard_text)
 
     def keyPressEvent(self, event):
-        # ctrl+C copy
+        # ctrl+C复制
         if event.key() == Qt.Key_C and event.modifiers() == Qt.ControlModifier:
             self.copy_to_clipboard()
         else:
@@ -1648,19 +1648,19 @@ class WinData(QDialog):
 
     def data_export(self):
         if not MainWin.ok6:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '无数据！')
             return
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save", self.content, "Text Document (*.txt)")
+        fileName, _ = QFileDialog.getSaveFileName(self, "保存", self.content, "文本文档 (*.txt)")
         if fileName:
             np.savetxt(fileName, self.data)
-            QMessageBox.information(self, 'Prompt', f'Data saved to {fileName}')
+            QMessageBox.information(self, '提示', f'数据已保存至{fileName}')
 
     def data_copy(self):
         if not MainWin.ok6:
-            QMessageBox.warning(self, 'Warning', 'No data!')
+            QMessageBox.warning(self, '警告', '无数据！')
             return
         QApplication.clipboard().setText("\n".join(["\t".join(map(str, row)) for row in self.data]))
-        QMessageBox.information(self, 'Prompt', 'Copied.')
+        QMessageBox.information(self, '提示', '已复制。')
 
 # ------------------------------------------------ WinAbout -------------------------------------------------
 
@@ -1672,7 +1672,7 @@ class WinAbout(QDialog):
         self.init_ui_about()
 
     def init_ui_about(self):
-        # Replace date and version
+        # 替换日期及版本
         text = self.ui_WinAbout.label_3.text()
         text = text.replace('Version', f'{MainWin.Version} ({MainWin.last_update})')
         text = text.replace('data', MainWin.date)
@@ -1685,3 +1685,4 @@ class WinHelp(QDialog):
         super().__init__()
         self.ui_WinHelp = Ui_WinHelp()
         self.ui_WinHelp.setupUi(self)
+
